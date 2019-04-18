@@ -53,11 +53,11 @@ class AuraRouter implements Router
     {
         $route = $this->routeContainer->getMatcher()->match($request);
         if (false === $route) {
-            return new PipedRouteMiddleware(new MiddlewarePipeline(new SplQueue()), true);
+            return new PipedRouteMiddleware(new MiddlewarePipeline(new SplQueue()), true, []);
         }
         $pipeline = $this->getPipeline($route);
 
-        return new PipedRouteMiddleware($pipeline, false);
+        return new PipedRouteMiddleware($pipeline, false, $route->attributes);
     }
 
     private function getPipeline(BaseRoute $route): MiddlewarePipeline
